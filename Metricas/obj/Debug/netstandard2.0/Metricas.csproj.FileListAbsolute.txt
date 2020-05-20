@@ -1,0 +1,6 @@
+C:\Users\Paula Calefi\source\repos\JiraMetricas\Metricas\bin\Debug\netstandard2.0\Metricas.deps.json
+C:\Users\Paula Calefi\source\repos\JiraMetricas\Metricas\bin\Debug\netstandard2.0\Metricas.dll
+C:\Users\Paula Calefi\source\repos\JiraMetricas\Metricas\obj\Debug\netstandard2.0\Metricas.csprojAssemblyReference.cache
+C:\Users\Paula Calefi\source\repos\JiraMetricas\Metricas\obj\Debug\netstandard2.0\Metricas.AssemblyInfoInputs.cache
+C:\Users\Paula Calefi\source\repos\JiraMetricas\Metricas\obj\Debug\netstandard2.0\Metricas.AssemblyInfo.cs
+C:\Users\Paula Calefi\source\repos\JiraMetricas\Metricas\obj\Debug\netstandard2.0\Metricas.csproj.CoreCompileInputs.cache
