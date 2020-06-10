@@ -64,19 +64,36 @@ namespace Assistente
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string jqlString = "";// PrepareJqlbyDates("2014-03-01", "2014-03-31");
+            Project projetoSelecionado = (Project)cbxProjeto.SelectedItem;
             CancellationToken token = new CancellationToken();
-            IEnumerable<Issue> jiraIssues = jira.Issues.GetIssuesFromJqlAsync("project = AG", 999, 0, token).Result;
-            int cont = 0;
-            chart1.DataSource = jiraIssues;
-            //chart1.Series.Add();
+            string jql = "project = " + projetoSelecionado.Key;
+            IEnumerable<Issue> jiraIssues = jira.Issues.GetIssuesFromJqlAsync(jql, 999, 0, token).Result;
+            Dictionary<int, int> leadTime = new Dictionary<int, int>();
+           
             foreach (var issue in jiraIssues)
             {
-                cont++;
-                //System.Console.WriteLine(issue.Key.Value + " -- " + issue.);
-            }
-            Project projetoSelecionado = (Project)cbxProjeto.SelectedItem;
+                if (issue.ResolutionDate != null)
+                {
+                    DateTime DataInicio = Convert.ToDateTime(issue.Created);
+                    DateTime DataFim = Convert.ToDateTime(issue.ResolutionDate);
 
+                }
+            }
+        }
+        public double Percentil(int[] sequence, double percentil)
+        {
+            Array.Sort(sequence);
+            int N = sequence.Length;
+            double n = (N - 1) * percentil + 1;
+            // Another method: double n = (N + 1) * excelPercentile;
+            if (n == 1d) return sequence[0];
+            else if (n == N) return sequence[N - 1];
+            else
+            {
+                int k = (int)n;
+                double d = n - k;
+                return sequence[k - 1] + d * (sequence[k] - sequence[k - 1]);
+            }
         }
     }
 }

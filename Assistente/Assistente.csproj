@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extracao\Autenticacao.cs" />
+    <Compile Include="Extracao\LeadTime.cs" />
     <Compile Include="Extracao\Projetos.cs" />
     <Compile Include="FormPrincipal.cs">
       <SubType>Form</SubType>
