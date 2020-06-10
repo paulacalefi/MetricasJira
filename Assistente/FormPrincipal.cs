@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using Assistente.Extracao;
 using Atlassian.Jira;
 
@@ -67,16 +68,28 @@ namespace Assistente
             Project projetoSelecionado = (Project)cbxProjeto.SelectedItem;
             CancellationToken token = new CancellationToken();
             string jql = "project = " + projetoSelecionado.Key;
-            IEnumerable<Issue> jiraIssues = jira.Issues.GetIssuesFromJqlAsync(jql, 999, 0, token).Result;
-            Dictionary<int, int> leadTime = new Dictionary<int, int>();
-           
+            IEnumerable<Issue> jiraIssues = jira.Issues.GetIssuesFromJqlAsync(jql, 50, 0, token).Result;
+            Dictionary<string, int> distribuicao = new Dictionary<string, int>();
+            Dictionary<int, int> Moda = new Dictionary<int, int>();
+
+            this.LeadTimeChart.Series.Clear();
+
+            this.LeadTimeChart.Titles.Add("Total Income");
+
+            Series series = this.LeadTimeChart.Series.Add("Total Income");
+            series.ChartType = SeriesChartType.Column;
+            int Somatorio = 0;
+
             foreach (var issue in jiraIssues)
             {
                 if (issue.ResolutionDate != null)
                 {
                     DateTime DataInicio = Convert.ToDateTime(issue.Created);
                     DateTime DataFim = Convert.ToDateTime(issue.ResolutionDate);
-
+                    int dias = (int)DataFim.Subtract(DataInicio).TotalDays;
+                    distribuicao.Add(issue.Key.ToString(), dias);
+                    Somatorio += dias;
+                    //series.Points.AddXY(issue.Key.ToString(), dias);
                 }
             }
         }
