@@ -27,7 +27,6 @@ namespace Assistente
             Projetos Projetos = new Projetos();
             var x = Projetos.GetProjetos(jira);
             cbxProjeto.Items.AddRange(x.ToArray());
-            //GetIssueAsync();
         }
         private async Task GetIssueAsync()
         {
@@ -76,22 +75,8 @@ namespace Assistente
                 cont++;
                 //System.Console.WriteLine(issue.Key.Value + " -- " + issue.);
             }
-            #region teste
             Project projetoSelecionado = (Project)cbxProjeto.SelectedItem;
-            /* var issues = (from it in jira.Issues.Queryable
-                          where it.Project == projetoSelecionado.Name && it.ResolutionDate <= Convert.ToDateTime("2020-05-23")
-                          orderby it.Created
-                          select it);//.ToList();
-            //var issues2 = jira.Issues.Where((Issue c) => { return c. > 2000; });
-            //var item = issues.All();
-            //var contador = issues.Count();
-            var arrayzinho = jira.Issues.GetIssuesAsync();
-            //var worklog = item.GetWorklogsAsync();
-            //var teste = worklog.Result;
-            //var log = item.GetChangeLogsAsync();
-            //var issuer = await jira.Issues.GetIssueAsync("AG-25");
-            */
-            #endregion
+
         }
     }
 }
