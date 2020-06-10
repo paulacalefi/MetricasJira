@@ -42,6 +42,10 @@
             this.rb80 = new System.Windows.Forms.RadioButton();
             this.rb70 = new System.Windows.Forms.RadioButton();
             this.rb50 = new System.Windows.Forms.RadioButton();
+            this.dpDataInicio = new System.Windows.Forms.DateTimePicker();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.dpDataFim = new System.Windows.Forms.DateTimePicker();
             this.leadTimeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.LeadTimeChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.leadTimeBindingSource)).BeginInit();
@@ -66,7 +70,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(520, 13);
+            this.btnBuscar.Location = new System.Drawing.Point(972, 32);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 2;
@@ -99,6 +103,7 @@
             // rb95
             // 
             this.rb95.AutoSize = true;
+            this.rb95.Checked = true;
             this.rb95.Location = new System.Drawing.Point(72, 40);
             this.rb95.Name = "rb95";
             this.rb95.Size = new System.Drawing.Size(45, 17);
@@ -123,7 +128,6 @@
             this.rb80.Name = "rb80";
             this.rb80.Size = new System.Drawing.Size(45, 17);
             this.rb80.TabIndex = 6;
-            this.rb80.TabStop = true;
             this.rb80.Text = "80%";
             this.rb80.UseVisualStyleBackColor = true;
             // 
@@ -134,7 +138,6 @@
             this.rb70.Name = "rb70";
             this.rb70.Size = new System.Drawing.Size(45, 17);
             this.rb70.TabIndex = 7;
-            this.rb70.TabStop = true;
             this.rb70.Text = "70%";
             this.rb70.UseVisualStyleBackColor = true;
             // 
@@ -145,9 +148,42 @@
             this.rb50.Name = "rb50";
             this.rb50.Size = new System.Drawing.Size(45, 17);
             this.rb50.TabIndex = 8;
-            this.rb50.TabStop = true;
             this.rb50.Text = "50%";
             this.rb50.UseVisualStyleBackColor = true;
+            // 
+            // dpDataInicio
+            // 
+            this.dpDataInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dpDataInicio.Location = new System.Drawing.Point(369, 37);
+            this.dpDataInicio.Name = "dpDataInicio";
+            this.dpDataInicio.Size = new System.Drawing.Size(145, 20);
+            this.dpDataInicio.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(305, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Data Inicio";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(529, 43);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Data Fim";
+            // 
+            // dpDataFim
+            // 
+            this.dpDataFim.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dpDataFim.Location = new System.Drawing.Point(584, 40);
+            this.dpDataFim.Name = "dpDataFim";
+            this.dpDataFim.Size = new System.Drawing.Size(145, 20);
+            this.dpDataFim.TabIndex = 12;
             // 
             // leadTimeBindingSource
             // 
@@ -158,6 +194,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1071, 450);
+            this.Controls.Add(this.dpDataFim);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.dpDataInicio);
             this.Controls.Add(this.rb50);
             this.Controls.Add(this.rb70);
             this.Controls.Add(this.rb80);
@@ -189,6 +229,10 @@
         private System.Windows.Forms.RadioButton rb80;
         private System.Windows.Forms.RadioButton rb70;
         private System.Windows.Forms.RadioButton rb50;
+        private System.Windows.Forms.DateTimePicker dpDataInicio;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker dpDataFim;
     }
 }
 

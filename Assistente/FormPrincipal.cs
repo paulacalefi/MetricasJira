@@ -28,6 +28,8 @@ namespace Assistente
             Projetos Projetos = new Projetos();
             var x = Projetos.GetProjetos(jira);
             cbxProjeto.Items.AddRange(x.ToArray());
+            dpDataInicio.Value = DateTime.Now.AddDays(-7);
+            dpDataFim.Value = DateTime.Now;
         }
         private async Task GetIssueAsync()
         {
@@ -67,38 +69,43 @@ namespace Assistente
         {
             Project projetoSelecionado = (Project)cbxProjeto.SelectedItem;
             CancellationToken token = new CancellationToken();
-            string jql = "project = " + projetoSelecionado.Key;
-            IEnumerable<Issue> jiraIssues = jira.Issues.GetIssuesFromJqlAsync(jql, 50, 0, token).Result;
+            string jql = "project = " + projetoSelecionado.Key + " AND resolution = Done AND resolved >= " + dpDataInicio.Value.ToString("yyyy-MM-dd") + " AND resolved <= " + dpDataFim.Value.ToString("yyyy-MM-dd")+" order by created DESC";
+            //string jql = "project = " + projetoSelecionado.Key;
+            IEnumerable<Issue> jiraIssues = jira.Issues.GetIssuesFromJqlAsync(jql, 999, 0, token).Result;
             Dictionary<string, int> distribuicao = new Dictionary<string, int>();
             Dictionary<int, int> Modas = new Dictionary<int, int>();
            
             int Somatorio = 0;
-
-            foreach (var issue in jiraIssues)
+            try
             {
-                if (issue.ResolutionDate != null)
+                foreach (var issue in jiraIssues)
                 {
-                    DateTime DataInicio = Convert.ToDateTime(issue.Created);
-                    DateTime DataFim = Convert.ToDateTime(issue.ResolutionDate);
-                    int dias = (int)DataFim.Subtract(DataInicio).TotalDays;
-                    distribuicao.Add(issue.Key.ToString(), dias);
-                    Somatorio += dias;
-                    if (!Modas.ContainsKey(dias))
+                    if (issue.ResolutionDate != null)
                     {
-                        Modas.Add(dias, 1);
-                    }
-                    else
-                    {
-                        var x = Modas[dias];
-                        Modas.Remove(dias);
-                        Modas.Add(dias, x + 1);
+                        DateTime DataInicio = Convert.ToDateTime(issue.Created);
+                        DateTime DataFim = Convert.ToDateTime(issue.ResolutionDate);
+                        int dias = (int)DataFim.Subtract(DataInicio).TotalDays;
+                        distribuicao.Add(issue.Key.ToString(), dias);
+                        Somatorio += dias;
+                        if (!Modas.ContainsKey(dias))
+                        {
+                            Modas.Add(dias, 1);
+                        }
+                        else
+                        {
+                            var x = Modas[dias];
+                            Modas.Remove(dias);
+                            Modas.Add(dias, x + 1);
+                        }
                     }
                 }
             }
+            catch
+            { }
             double valorPercentil = rb95.Checked ? 0.95 : rb80.Checked ? 0.8 : rb70.Checked ? 0.7 : 0.5;
-            var media = Somatorio / distribuicao.Count;
-            var moda = Modas.FirstOrDefault(x => x.Value == Modas.Values.Max()).Key;
-            var percentil = CalculaPercentil(distribuicao.Values.ToArray(), valorPercentil);
+            var media = distribuicao.Count == 0 ? 0 : Somatorio / distribuicao.Count;
+            var moda = distribuicao.Count == 0 ? 0 : Modas.FirstOrDefault(x => x.Value == Modas.Values.Max()).Key;
+            var percentil = distribuicao.Count == 0 ? 0 : CalculaPercentil(distribuicao.Values.ToArray(), valorPercentil);
             PreparaChart(distribuicao, media, moda, percentil, valorPercentil);
             
         }
@@ -121,6 +128,7 @@ namespace Assistente
         public void PreparaChart(Dictionary<string, int> distribuicao, int media, int moda, double percentil, double valorPercentil)
         {
             this.LeadTimeChart.Series.Clear();
+            this.LeadTimeChart.Titles.Clear();
             this.LeadTimeChart.Titles.Add("Histograma");
             this.LeadTimeChart.BackHatchStyle = ChartHatchStyle.None;
             Series leadtimeSerie = this.LeadTimeChart.Series.Add("LeadTime");
@@ -136,7 +144,7 @@ namespace Assistente
             modaSerie.Color = Color.Black;
             modaSerie.BorderWidth = 3;
 
-            Series percentilSerie = this.LeadTimeChart.Series.Add("Percentil " + valorPercentil*10 + "%: " + percentil);
+            Series percentilSerie = this.LeadTimeChart.Series.Add("Percentil " + valorPercentil*100 + "%: " + percentil);
             percentilSerie.ChartType = SeriesChartType.Line;
             percentilSerie.Color = Color.Purple;
             percentilSerie.BorderWidth = 3;
